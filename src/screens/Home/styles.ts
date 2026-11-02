@@ -36,6 +36,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     marginBottom: 16,
   },
+  validationMessage: {
+    color: 'red',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
 });
 
 export default styles;

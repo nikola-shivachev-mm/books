@@ -9,6 +9,20 @@ const Home: React.FC = () => {
   const [query, setQuery] = useState('');
   const [submittedQuery, setSubmittedQuery] = useState('');
 
+  const [validationMessage, setValidationMessage] = useState('');
+  const submitSearch = (value: string) => {
+    const normalizedQuery = value.trim();
+
+    if (normalizedQuery.length < 3) {
+      setValidationMessage('Enter at least 3 characters to search.');
+      setSubmittedQuery('');
+      return;
+    }
+
+    setValidationMessage('');
+    setSubmittedQuery(normalizedQuery);
+  };
+
   const { data, isLoading, error } = useSearchBooks(submittedQuery);
 
   if (isLoading) {
@@ -23,9 +37,13 @@ const Home: React.FC = () => {
         style={styles.searchInput}
         returnKeyType="search"
         onChangeText={setQuery}
-        onBlur={() => setSubmittedQuery(query)}
-        onSubmitEditing={() => setSubmittedQuery(query)}
+        onBlur={() => submitSearch(query)}
+        onSubmitEditing={() => submitSearch(query)}
       />
+
+      {validationMessage && (
+        <Text style={styles.validationMessage}>{validationMessage}</Text>
+      )}
 
       {error && (
         <Text>
