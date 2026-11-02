@@ -1,97 +1,47 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+1. Project overview
 
-# Getting Started
+- React Native app to search OpenLibrary books and view details
+- Tech stack: React Native 0.88 (CLI, no Expo), TypeScript, React Navigation, TanStack Query, AsyncStorage
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+2. Features
 
-## Step 1: Start Metro
+- Search screen (Search API)
+- Book details screen (Books API)
+- Offline banner + network status detection
+- Response caching/persistence across app restarts (search results + book details)
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+4. Project structure
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- The app lives in /src folder. The code is divided by type (screens, components, api, navigation etc).
+  The project is small and this doesn't cause confusion. In the future if we want to scale the project better we can think of implementing a more module approach (Home, BookDetails, Profile, Settings etc) where every folder contains its needed code (hooks, components, screens etc.)
 
-```sh
-# Using npm
-npm start
+5. Testing
 
-# OR using Yarn
-yarn start
-```
+- npm run test — unit tests for hooks, helpers; component tests for individual dummy components (Loading, OfflineBanner etc)
 
-## Step 2: Build and run your app
+6. Architecture notes
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+- Data fetching via TanStack Query. I chose it because it has caching, retries and works well with AsyncStorage for device persistence.
+- Navigation consists of 2 screens using via React Navigation native stack.
 
-### Android
+7. Time constraints
 
-```sh
-# Using npm
-npm run android
+- If I had more time to work on the task I would do the following improvements:
 
-# OR using Yarn
-yarn android
-```
+  - Better UI for Home and Details screens. More intuitive search bar (now is triggered with an event from the phone keyboard). It can run on focus out, auto search after N amount of characters with a debounce time. We can show the last 3-4 searches by the user. There can be a loading skeleton to help the user wait longer for results.
+  - Pagination for the list
+  - BookDetails can show more details.
+  - Light/Dark themes
+  - More e2e testing
+  - more detailed error handling (based on the type). We can use ErrorBoundary
+  - Suspense for loading states
+  - CI/CD flow with tests running after each PR is created etc.
 
-### iOS
+8. Alternative AI-centric workflow I would have used
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+- using the PDF assignment as context I would have used claude to "grill me" for all details concerning the project. Results go in SPEC.md for future references.
+- After the planning I would have decided on a project structure, stack and overall details. I would have created top level empty folders/files so that Claude would have little room for error when implementing the features. Every important detail goes in CLAUDE.md. We are careful to not get it filled too much with details so it starts to not follow our guidance.
+- After the planning and scaffolding I would have cut the job into several logically structured tasks and start building them 1 by 1. I would advise Claude to self-document the steps for future reference.
+- Write and run tests after each step + manual testing
+- For more structured and hands on approach we can have custom agents that will handle each step of implementation a task. (Planner, Coder, Tester, Reviewer, Committer)
+- Fresh session after each task (no more than 40-50% filled context)
